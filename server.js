@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
     'http://127.0.0.1:5500', 
     'http://localhost:5500', 
-    'https://spotify-tau-wine.vercel.app/',
+    'https://spotify-tau-wine.vercel.app',
     'https://music-app-backend-production-1dd4.up.railway.app/' 
 ];
 
