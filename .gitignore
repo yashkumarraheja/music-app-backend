@@ -1,0 +1,16 @@
+node_modules/
+# Ignore node_modules for the backend project
+music-app-backend/node_modules/
+
+# Also ignore package-lock.json within the backend's node_modules if it somehow gets there (belt-and-suspenders)
+music-app-backend/node_modules/.package-lock.json
+
+# If your frontend also has a node_modules folder at its root (common for React/Vue apps), add this too:
+# node_modules/
+
+# General ignore rules
+.DS_Store
+.env
+.vscode/
+npm-debug.log
+yarn-error.log
