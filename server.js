@@ -1,32 +1,34 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs'); // Node.js built-in module for file system operations
+const fs = require('fs'); 
 const app = express();
-const PORT = process.env.PORT || 3000; // Use environment variable for port, default to 3000
+const PORT = process.env.PORT || 3000; 
 
 // Enable CORS for your frontend application
 // Replace 'http://localhost:5500' with the actual URL of your frontend when deployed
 const allowedOrigins = [
-    'http://127.0.0.1:5500', // Keep for your local Live Server testing (if you still use it)
-    'http://localhost:5500', // Another common local development port (if you still use it)
-    'https://spotify-tau-wine.vercel.app/', // <--- REPLACE THIS WITH THE FULL URL YOU COPIED FROM VERCEL
-    'https://music-app-backend-production-1dd4.up.railway.app/' // <--- REPLACE THIS WITH THE FULL URL YOU COPIED FROM RAILWAY
+    'http://127.0.0.1:5500', 
+    'http://localhost:5500', 
+    'https://spotify-tau-wine.vercel.app/',
+    'https://music-app-backend-production-1dd4.up.railway.app/' 
 ];
 
-app.use((req, res, next) => { 
+app.use((req, res, next) => {
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     } else {
-        // Optional: Log origins that are denied for debugging
-        console.log(`Blocked origin: ${origin}`); // You can remove this line after successful deployment
+        
+        console.log(`Blocked origin: ${origin}`); 
     }
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    next()};
+    next(); 
+}); 
 
-// Serve static song files directly from the 'songs' directory
-// This makes files like 'http://localhost:3000/songs/Song%20Name%201.mp3' accessible
+
+
+
 app.use('/songs', express.static(path.join(__dirname, 'songs')));
 
 // API endpoint to get the list of songs
@@ -41,11 +43,7 @@ app.get('/api/songs', async (req, res) => {
             return ['.mp3', '.wav', '.ogg', '.aac'].includes(ext);
         });
 
-        // The frontend expects the raw, encoded filenames (like Song%20Name.mp3)
-        // if you're using encodeURIComponent on the frontend.
-        // If your frontend expects decoded names, you'd decode here.
-        // Based on your frontend code: `decodeURIComponent(song.replaceAll("%20", " "))`
-        // it seems the backend should send the raw, encoded names.
+        
         res.json(audioFiles);
 
     } catch (err) {
