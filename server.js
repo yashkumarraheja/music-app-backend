@@ -6,12 +6,24 @@ const PORT = process.env.PORT || 3000; // Use environment variable for port, def
 
 // Enable CORS for your frontend application
 // Replace 'http://localhost:5500' with the actual URL of your frontend when deployed
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Allows all origins for now. Be more specific in production: 'http://yourfrontend.onrender.com'
+const allowedOrigins = [
+    'http://127.0.0.1:5500', // Keep for your local Live Server testing (if you still use it)
+    'http://localhost:5500', // Another common local development port (if you still use it)
+    'https://spotify-tau-wine.vercel.app/', // <--- REPLACE THIS WITH THE FULL URL YOU COPIED FROM VERCEL
+    'https://music-app-backend-production-1dd4.up.railway.app/' // <--- REPLACE THIS WITH THE FULL URL YOU COPIED FROM RAILWAY
+];
+
+app.use((req, res, next) => { 
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    } else {
+        // Optional: Log origins that are denied for debugging
+        console.log(`Blocked origin: ${origin}`); // You can remove this line after successful deployment
+    }
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
+    next()};
 
 // Serve static song files directly from the 'songs' directory
 // This makes files like 'http://localhost:3000/songs/Song%20Name%201.mp3' accessible
