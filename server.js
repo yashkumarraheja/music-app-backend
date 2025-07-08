@@ -29,12 +29,12 @@ app.use((req, res, next) => {
 
 
 
-app.use('/songs', express.static(path.join(__dirname, 'songs')));
+app.use('/songs', express.static(path.join(__dirname, 'Songs')));
 
 // API endpoint to get the list of songs
 app.get('/api/songs', async (req, res) => {
     try {
-        const songsDirectory = path.join(__dirname, 'songs');
+        const songsDirectory = path.join(__dirname, 'Songs');
         const files = await fs.promises.readdir(songsDirectory);
 
         // Filter for common audio file extensions (add more if needed)
